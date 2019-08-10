@@ -102,18 +102,20 @@ export default {
       initPage: 0,
       list: [],
       selectIds: [],
-      page: 1,
+      page: 0,
       entity: {},
       userList: []
     }
   },
   methods: {
     pageEvent: function (e) {
+      if (e > 0) {
+        e = e - 1
+      }
       this.page = e
-      console.log(e)
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/seller/findPage?page=' + e + '&size=10'
+        url: 'http://localhost:8080/sellers/' + e + '/10'
       })
         .then(response => {
           this.list = response.data.rows
@@ -125,7 +127,7 @@ export default {
     findOne: function (id) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/seller/findOne?id=' + id
+        url: 'http://localhost:8080/sellers/' + id
       })
         .then(response => {
           this.entity = response.data
@@ -133,12 +135,12 @@ export default {
     },
     update: function () {
       this.axios({
-        method: 'post',
-        url: 'http://localhost:8080/seller/update',
+        method: 'put',
+        url: 'http://localhost:8080/sellers',
         data: this.entity
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
         })
         // eslint-disable-next-line handle-callback-err
         .catch(error => {
@@ -155,11 +157,11 @@ export default {
     },
     delOne: function (id) {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/seller/deleteOne?id=' + id
+        method: 'delete',
+        url: 'http://localhost:8080/sellers/' + id
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
         })
         // eslint-disable-next-line handle-callback-err
         .catch(error => {
@@ -168,11 +170,11 @@ export default {
     },
     del: function () {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/seller/delete?ids=' + this.selectIds
+        method: 'delete',
+        url: 'http://localhost:8080/sellers?ids=' + this.selectIds
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
           $('input:checkbox').prop('checked', false)
           this.selectIds = []
         })
@@ -185,14 +187,14 @@ export default {
     findAllUser: function () {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/user/findAll'
+        url: 'http://localhost:8080/users'
       })
         .then(response => {
           this.userList = response.data
         })
     },
     refresh: function () {
-      this.pageEvent(this.page)
+      this.pageEvent(this.page + 1)
     }
   },
   mounted () {

@@ -85,19 +85,22 @@ export default {
       initPage: 0,
       list: [],
       selectIds: [],
-      page: 1,
+      page: 0,
       entity: {}
     }
   },
   methods: {
     pageEvent: function (e) {
+      if (e > 0) {
+        e = e - 1
+      }
       this.page = e
-      console.log(e)
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/brand/findPage?page=' + e + '&size=10'
+        url: 'http://localhost:8080/brands/' + this.page + '/10'
       })
         .then(response => {
+          console.log(response)
           this.list = response.data.rows
         })
         .catch(error => {
@@ -107,7 +110,7 @@ export default {
     findOne: function (id) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/brand/findOne?id=' + id
+        url: 'http://localhost:8080/brands/' + id
       })
         .then(response => {
           this.entity = response.data
@@ -116,11 +119,11 @@ export default {
     add: function () {
       this.axios({
         method: 'post',
-        url: 'http://localhost:8080/brand/add',
+        url: 'http://localhost:8080/brands',
         data: this.entity
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
           this.entity.name = ''
           this.entity.first_char = ''
           this.entity.brand_id = null
@@ -132,12 +135,12 @@ export default {
     },
     update: function () {
       this.axios({
-        method: 'post',
-        url: 'http://localhost:8080/brand/update',
+        method: 'put',
+        url: 'http://localhost:8080/brands',
         data: this.entity
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
           this.entity.name = ''
           this.entity.first_char = ''
           this.entity.brand_id = null
@@ -164,11 +167,11 @@ export default {
     },
     delOne: function (id) {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/brand/deleteOne?id=' + id
+        method: 'delete',
+        url: 'http://localhost:8080/brands/' + id
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
         })
         // eslint-disable-next-line handle-callback-err
         .catch(error => {
@@ -177,11 +180,11 @@ export default {
     },
     del: function () {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/brand/delete?ids=' + this.selectIds
+        method: 'delete',
+        url: 'http://localhost:8080/brands?ids=' + this.selectIds
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
           // eslint-disable-next-line no-undef
           $('input:checkbox').prop('checked', false)
           this.selectIds = []
@@ -192,11 +195,11 @@ export default {
         })
     },
     refresh: function () {
-      this.pageEvent(this.page)
+      this.pageEvent(this.page + 1)
     }
   },
   mounted: function () {
-    this.pageEvent(1)
+    this.pageEvent(this.page)
   }
 }
 </script>

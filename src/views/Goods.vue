@@ -2,8 +2,8 @@
   <div>
     <div style="width: 100%;height: 30px;margin-top: 10px;" class="container">
       <div class="btn-group btn-group-sm" role="group" aria-label="...">
-        <button type="button" class="btn btn-default" @click="del()">删除</button>
-        <button type="button" class="btn btn-default">刷新</button>
+        <button type="button" class="btn btn-default" @click="del">删除</button>
+        <button type="button" class="btn btn-default" @click="refresh">刷新</button>
       </div>
     </div>
     <div style="width: 100%;margin-top: 10px;" class="container" id="div">
@@ -22,13 +22,6 @@
         <th>库存</th>
         <th>评价数</th>
         <th>送积分</th>
-<!--        <th>一级分类ID</th>-->
-<!--        <th>二级分类ID</th>-->
-<!--        <th>三级分类ID</th>-->
-<!--        <th>品牌ID</th>-->
-<!--        <th>店铺ID</th>-->
-<!--        <th>审核状态</th>-->
-<!--        <th>是否上架</th>-->
         <th>操作</th>
         </thead>
         <tbody>
@@ -46,13 +39,6 @@
           <td>{{item.reserve}}</td>
           <td>{{item.comment}}</td>
           <td>{{item.score}}</td>
-<!--          <td>{{item.sort1_id}}</td>-->
-<!--          <td>{{item.sort2_id}}</td>-->
-<!--          <td>{{item.sort3_id}}</td>-->
-<!--          <td>{{item.brand_id}}</td>-->
-<!--          <td>{{item.shop_id}}</td>-->
-<!--          <td>{{item.status}}</td>-->
-<!--          <td>{{item.is_marketable}}</td>-->
           <td>
             <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#editModal" @click="findOne(item.goods_id)">修改</button>
             <button class="btn btn-danger btn-xs" @click="delOne(item.goods_id)">删除</button>
@@ -155,17 +141,19 @@ export default {
       initPage: 0,
       list: [],
       selectIds: [],
-      page: 1,
+      page: 0,
       entity: []
     }
   },
   methods: {
     pageEvent: function (e) {
+      if (e > 0) {
+        e = e - 1
+      }
       this.page = e
-      console.log(e)
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/goods/findPage?page=' + e + '&size=7'
+        url: 'http://localhost:8080/goods/' + this.page + '/7'
       })
         .then(response => {
           this.list = response.data.rows
@@ -177,7 +165,7 @@ export default {
     findOne: function (id) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/goods/findOne?id=' + id
+        url: 'http://localhost:8080/goods/' + id
       })
         .then(response => {
           this.entity = response.data
@@ -185,12 +173,12 @@ export default {
     },
     update: function () {
       this.axios({
-        method: 'post',
-        url: 'http://localhost:8080/goods/update',
+        method: 'put',
+        url: 'http://localhost:8080/goods/',
         data: this.entity
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
         })
         // eslint-disable-next-line handle-callback-err
         .catch(error => {
@@ -207,11 +195,11 @@ export default {
     },
     delOne: function (id) {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/goods/deleteOne?id=' + id
+        method: 'delete',
+        url: 'http://localhost:8080/goods/' + id
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
         })
         // eslint-disable-next-line handle-callback-err
         .catch(error => {
@@ -220,11 +208,11 @@ export default {
     },
     del: function () {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/goods/delete?ids=' + this.selectIds
+        method: 'delete',
+        url: 'http://localhost:8080/goods?ids=' + this.selectIds
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
           $('input:checkbox').prop('checked', false)
           this.selectIds = []
         })
@@ -255,10 +243,13 @@ export default {
           alert('图片上传失败')
           console.log(error)
         })
+    },
+    refresh: function () {
+      this.pageEvent(this.page + 1)
     }
   },
   mounted () {
-    this.pageEvent(1)
+    this.pageEvent(this.page)
   }
 }
 </script>

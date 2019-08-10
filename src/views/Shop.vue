@@ -111,17 +111,19 @@ export default {
       initPage: 0,
       list: [],
       selectIds: [],
-      page: 1,
+      page: 0,
       entity: {}
     }
   },
   methods: {
     pageEvent: function (e) {
+      if (e > 0) {
+        e = e - 1
+      }
       this.page = e
-      console.log(e)
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/shop/findPage?page=' + e + '&size=10'
+        url: 'http://localhost:8080/shops/' + e + '/10'
       })
         .then(response => {
           this.list = response.data.rows
@@ -133,7 +135,7 @@ export default {
     findOne: function (id) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/shop/findOne?id=' + id
+        url: 'http://localhost:8080/shops/' + id
       })
         .then(response => {
           this.entity = response.data
@@ -143,11 +145,11 @@ export default {
     add: function () {
       this.axios({
         method: 'post',
-        url: 'http://localhost:8080/shop/add',
+        url: 'http://localhost:8080/shops',
         data: this.entity
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
           this.entity.shop_id = null
           this.entity.name = ''
           this.entity.image = ''
@@ -162,12 +164,12 @@ export default {
     },
     update: function () {
       this.axios({
-        method: 'post',
-        url: 'http://localhost:8080/shop/update',
+        method: 'put',
+        url: 'http://localhost:8080/shops',
         data: this.entity
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
           this.entity.shop_id = null
           this.entity.name = ''
           this.entity.image = ''
@@ -197,11 +199,11 @@ export default {
     },
     delOne: function (id) {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/shop/deleteOne?id=' + id
+        method: 'delete',
+        url: 'http://localhost:8080/shops/' + id
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
         })
         // eslint-disable-next-line handle-callback-err
         .catch(error => {
@@ -211,11 +213,11 @@ export default {
     },
     del: function () {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/shop/delete?ids=' + this.selectIds
+        method: 'delete',
+        url: 'http://localhost:8080/shops?ids=' + this.selectIds
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
           // eslint-disable-next-line no-undef
           $('input:checkbox').prop('checked', false)
           this.selectIds = []
@@ -249,7 +251,7 @@ export default {
         })
     },
     refresh: function () {
-      this.pageEvent(this.page)
+      this.pageEvent(this.page + 1)
       this.entity.shop_id = null
       this.entity.name = ''
       this.entity.image = ''
@@ -259,7 +261,7 @@ export default {
     }
   },
   mounted: function () {
-    this.pageEvent(1)
+    this.pageEvent(this.page)
   }
 }
 </script>

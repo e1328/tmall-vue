@@ -14,7 +14,7 @@
       <div class="btn-group btn-group-sm" role="group" aria-label="...">
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editModal">新增</button>
         <button type="button" class="btn btn-default">删除</button>
-        <button type="button" class="btn btn-default" @click="refresh">刷新</button>
+        <button type="button" class="btn btn-default">刷新</button>
       </div>
     </div>
     <div style="width: 100%;margin-top: 10px;" class="container" id="div">
@@ -103,7 +103,7 @@ export default {
       this.axios({
         method: 'get',
         // eslint-disable-next-line camelcase
-        url: 'http://localhost:8080/sort/findByParentId?parent_id=' + parent_id
+        url: 'http://localhost:8080/sorts/find/' + parent_id
       })
         .then(response => {
           // eslint-disable-next-line no-unused-expressions
@@ -141,7 +141,7 @@ export default {
     add: function () {
       this.axios({
         method: 'post',
-        url: 'http://localhost:8080/sort/add',
+        url: 'http://localhost:8080/sorts',
         data: this.entity
       })
         .then(response => {
@@ -156,8 +156,8 @@ export default {
     },
     update: function () {
       this.axios({
-        method: 'post',
-        url: 'http://localhost:8080/sort/update',
+        method: 'put',
+        url: 'http://localhost:8080/sorts',
         data: this.entity
       })
         .then(response => {
@@ -173,7 +173,7 @@ export default {
     findOne: function (id) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/sort/findOne?id=' + id
+        url: 'http://localhost:8080/sorts/' + id
       })
         .then(response => {
           this.entity = response.data
@@ -195,8 +195,8 @@ export default {
     },
     delOne: function (id) {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/sort/deleteOne?id=' + id
+        method: 'delete',
+        url: 'http://localhost:8080/sorts/' + id
       })
         .then(response => {
           this.findByParentId(this.entity.parent_id)
@@ -205,9 +205,6 @@ export default {
         .catch(error => {
           alert('fail')
         })
-    },
-    refresh: function () {
-      this.pageEvent(this.page)
     }
   },
   mounted () {
