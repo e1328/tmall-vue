@@ -38,8 +38,8 @@ export default {
   methods: {
     login: function () {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/user/login',
+        method: 'post',
+        url: 'http://localhost:9103/users/login',
         params: {
           user_name: this.entity.user_name,
           user_pass: this.entity.user_pass
@@ -49,7 +49,7 @@ export default {
           console.log(response)
           if (response.data.success) {
             this.name = this.$store.commit('setName', response.data.message)
-            sessionStorage.setItem('store', response.data.message)
+            localStorage.setItem('store', response.data.message)
             alert('登录成功')
             this.$router.push({ path: '/' })
           } else {

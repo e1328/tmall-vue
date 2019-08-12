@@ -59,7 +59,7 @@ export default {
     sendMessage: function () {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/message/sendMessage?phone=' + this.entity.phone
+        url: 'http://localhost:9103/users/send?phone=' + this.entity.phone
       })
         .then(response => {
           alert('短信发送成功')
@@ -73,30 +73,56 @@ export default {
         })
     },
     register: function () {
-      // eslint-disable-next-line eqeqeq
-      if (this.code !== this.entity.phone_code || this.num !== this.entity.phone) {
-        alert('验证失败')
-        return false
-      }
-      alert('注册成功')
+      // // eslint-disable-next-line eqeqeq
+      // if (this.code !== this.entity.phone_code || this.num !== this.entity.phone) {
+      //   alert('验证失败')
+      //   return false
+      // }
+
       this.axios({
-        method: 'post',
-        url: 'http://localhost:8080/user/add',
-        data: this.entity
+        method: 'get',
+        url: 'http://localhost:9103/users/test',
+        params: {
+          'phone': this.entity.phone,
+          'code': this.entity.phone_code
+        }
       })
         .then(response => {
-          $('input').val('')
-          this.code = ''
-          this.num = ''
-          this.entity = {}
-          console.log(response)
-          // eslint-disable-next-line standard/object-curly-even-spacing
-          this.$router.push({ path: '/Login'})
+          if (response.data.success) {
+            console.log('test-success')
+            console.log('user=' + this.entity)
+            this.axios({
+              method: 'post',
+              url: 'http://localhost:9103/users',
+              data: this.entity
+            })
+              .then(response => {
+                if (response.data.success) {
+                  $('input').val('')
+                  this.code = ''
+                  this.num = ''
+                  this.entity = {}
+                  console.log(response)
+                  // eslint-disable-next-line standard/object-curly-even-spacing
+                  this.$router.push({ path: '/Login'})
+                } else {
+                  alert('注册失败')
+                }
+              })
+              // eslint-disable-next-line handle-callback-err
+              .catch(error => {
+                alert('请求失败')
+                console.log(error)
+              })
+          } else {
+            alert('验证码有误')
+            return false
+          }
         })
         // eslint-disable-next-line handle-callback-err
         .catch(error => {
-          alert('注册失败')
-          console.log(error)
+          alert('请求错误')
+          return false
         })
     }
   }

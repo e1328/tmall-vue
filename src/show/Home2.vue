@@ -1117,8 +1117,9 @@ export default {
           this.carousel5 = this.carouselList[4].pic
           this.carousel6 = this.carouselList[5].pic
         })
-        .catch(erroe => {
-          alert('出错')
+        // eslint-disable-next-line handle-callback-err
+        .catch(error => {
+          // alert('出错')
         })
     },
     findPage1: function () {
@@ -1165,7 +1166,7 @@ export default {
       this.$router.push({ name: 'Search', query: { id: this.key }})
     },
     logout: function () {
-      sessionStorage.removeItem('store')
+      localStorage.removeItem('store')
     }
   },
   mounted () {

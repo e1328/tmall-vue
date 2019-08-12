@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    name: sessionStorage.getItem('store')
+    name: localStorage.getItem('store')
   },
   mutations: {
     setName (state, msg) {
