@@ -88,7 +88,7 @@ export default {
       console.log(e)
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/ad_type/findPage?page=' + e + '&size=10'
+        url: 'http://localhost:9105/ad_types/' + this.page + '/10'
       })
         .then(response => {
           this.list = response.data.rows
@@ -100,7 +100,7 @@ export default {
     findOne: function (id) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/ad_type/findOne?id=' + id
+        url: 'http://localhost:9105/ad_types/' + id
       })
         .then(response => {
           this.entity = response.data
@@ -109,11 +109,11 @@ export default {
     add: function () {
       this.axios({
         method: 'post',
-        url: 'http://localhost:8080/ad_type/add',
+        url: 'http://localhost:9105/ad_types',
         data: this.entity
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
           this.entity.name = ''
           this.entity.id = null
         })
@@ -124,12 +124,12 @@ export default {
     },
     update: function () {
       this.axios({
-        method: 'post',
-        url: 'http://localhost:8080/ad_type/update',
+        method: 'put',
+        url: 'http://localhost:9105/ad_types',
         data: this.entity
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
           this.entity.name = ''
           this.entity.id = null
         })
@@ -155,11 +155,11 @@ export default {
     },
     delOne: function (id) {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/ad_type/deleteOne?id=' + id
+        method: 'delete',
+        url: 'http://localhost:9105/ad_types/' + id
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
         })
       // eslint-disable-next-line handle-callback-err
         .catch(error => {
@@ -168,11 +168,11 @@ export default {
     },
     del: function () {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/ad_type/delete?ids=' + this.selectIds
+        method: 'delete',
+        url: 'http://localhost:9105/ad_types?ids=' + this.selectIds
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
           // eslint-disable-next-line no-undef
           $('input:checkbox').prop('checked', false)
           this.selectIds = []
@@ -190,7 +190,7 @@ export default {
     }
   },
   mounted: function () {
-    this.pageEvent(1)
+    this.pageEvent(this.page)
   }
 }
 </script>

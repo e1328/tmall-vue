@@ -1105,7 +1105,7 @@ export default {
       this.axios({
         method: 'get',
         // eslint-disable-next-line camelcase
-        url: 'http://localhost:8080/ad_content/findByAdType?type_id=' + type_id
+        url: 'http://localhost:9103/ad_contents/type/' + type_id
       })
         .then(response => {
           console.log(response.data)
@@ -1125,7 +1125,7 @@ export default {
     findPage1: function () {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/goods/findPage?page=1&size=4'
+        url: 'http://localhost:8080/goods/0/4'
       })
         .then(response => {
           this.list1 = response.data.rows
@@ -1134,7 +1134,7 @@ export default {
     findPage2: function () {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/goods/findPage?page=2&size=4'
+        url: 'http://localhost:8080/goods/1/4'
       })
         .then(response => {
           this.list2 = response.data.rows
@@ -1143,18 +1143,11 @@ export default {
     findSeckillGoodsList: function () {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/seckill/findList'
+        url: 'http://localhost:9103/seckill/findList'
       })
         .then(response => {
           this.seckillGoodsList = response.data
         })
-    },
-    changePage: function () {
-      let page = Math.round(Math.random() * 3) + 1
-      if (page === 4) {
-        page = 2
-      }
-      this.findSeckillGoodsList(page)
     },
     // eslint-disable-next-line camelcase
     gotoDetailPage (goods_id) {

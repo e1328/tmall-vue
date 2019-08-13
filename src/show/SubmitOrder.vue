@@ -161,7 +161,6 @@
         </div>
       </div>
     </div>
-    {{areas}}
   </div>
 </template>
 
@@ -193,7 +192,7 @@ export default {
     findOrderList: function () {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/order/findOrderList?user_name=' + this.name
+        url: 'http://localhost:9103/order/findOrderList?user_name=' + this.name
       })
         .then(response => {
           console.log(response.data)
@@ -228,7 +227,7 @@ export default {
       },
       this.axios({
         method: 'post',
-        url: 'http://localhost:8080/alipay/pay',
+        url: 'http://localhost:8082/alipay/pay',
         data: this.orders
       })
         .then(response => {
@@ -247,7 +246,7 @@ export default {
     findAllProvinces: function () {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/provinces/findAll'
+        url: 'http://localhost:9103/provinces/findAll'
       })
         .then(response => {
           this.provincesList = response.data
@@ -256,7 +255,7 @@ export default {
     findAllCitiesByProvincesId: function (id) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/cities/findAllByProvincesId?id=' + id
+        url: 'http://localhost:9103/cities/findAllByProvincesId?id=' + id
       })
         .then(response => {
           this.citiesList = response.data
@@ -265,7 +264,7 @@ export default {
     findAllAreasByCitiesId: function (id) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/areas/findAllByCitiesId?id=' + id
+        url: 'http://localhost:9103/areas/findAllByCitiesId?id=' + id
       })
         .then(response => {
           this.areasList = response.data
@@ -283,7 +282,7 @@ export default {
       }
       this.axios({
         method: 'post',
-        url: 'http://localhost:8080/address/add',
+        url: 'http://localhost:9103/address/add',
         data: this.address
       })
         .then(response => {

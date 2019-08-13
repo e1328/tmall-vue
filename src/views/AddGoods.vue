@@ -116,7 +116,7 @@ export default {
       this.entity.image = this.image
       this.axios({
         method: 'post',
-        url: 'http://localhost:8080/goods/add',
+        url: 'http://localhost:8080/goods',
         data: this.entity
       })
         .then(response => {
@@ -137,7 +137,7 @@ export default {
       formdata.append('file', this.file)
       this.axios({
         method: 'post',
-        url: 'http://localhost:8080/upload/upload',
+        url: 'http://localhost:8082/upload/upload',
         data: formdata,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       })
@@ -155,7 +155,7 @@ export default {
     findAllBrand: function () {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/brand/findAll'
+        url: 'http://localhost:8080/brands'
       })
         .then(response => {
           this.brandList = response.data
@@ -168,7 +168,7 @@ export default {
     findAllShop: function () {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/shop/findAll'
+        url: 'http://localhost:8080/shops'
       })
         .then(response => {
           this.shopList = response.data
@@ -185,7 +185,7 @@ export default {
       this.axios({
         method: 'get',
         // eslint-disable-next-line camelcase
-        url: 'http://localhost:8080/sort/findByParentId?parent_id=' + parent_id
+        url: 'http://localhost:8080/sorts/find/' + parent_id
       })
         .then(response => {
           // eslint-disable-next-line no-unused-expressions
@@ -204,7 +204,7 @@ export default {
       this.axios({
         method: 'get',
         // eslint-disable-next-line camelcase
-        url: 'http://localhost:8080/sort/findByParentId?parent_id=' + parent_id
+        url: 'http://localhost:8080/sorts/find/' + parent_id
       })
         .then(response => {
           // eslint-disable-next-line no-unused-expressions
@@ -223,7 +223,7 @@ export default {
       this.axios({
         method: 'get',
         // eslint-disable-next-line camelcase
-        url: 'http://localhost:8080/sort/findByParentId?parent_id=' + parent_id
+        url: 'http://localhost:8080/sorts/find/' + parent_id
       })
         .then(response => {
           // eslint-disable-next-line no-unused-expressions

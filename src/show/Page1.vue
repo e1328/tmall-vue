@@ -251,7 +251,7 @@ export default {
     findMyOrderListWithState: function (state) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/myorder/findMyOrderListWithState',
+        url: 'http://localhost:9103/myorder/findMyOrderListWithState',
         params: {
           user_name: this.name,
           state: state
@@ -275,7 +275,7 @@ export default {
         })
         // eslint-disable-next-line handle-callback-err
         .catch(error => {
-          alert('fail')
+          // alert('fail')
         })
     },
     pay: function (id) {

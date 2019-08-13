@@ -131,10 +131,9 @@ export default {
   methods: {
     pageEvent: function (e) {
       this.page = e
-      console.log(e)
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/ad_content/findPage?page=' + e + '&size=4'
+        url: 'http://localhost:9105/ad_contents/' + this.page + '/4'
       })
         .then(response => {
           this.list = response.data.rows
@@ -146,7 +145,7 @@ export default {
     findOne: function (id) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/ad_content/findOne?id=' + id
+        url: 'http://localhost:9105/ad_contents/' + id
       })
         .then(response => {
           this.entity = response.data
@@ -157,7 +156,7 @@ export default {
       this.entity.type_id = 1
       this.axios({
         method: 'post',
-        url: 'http://localhost:8080/ad_content/add',
+        url: 'http://localhost:9105/ad_contents',
         data: this.entity
       })
         .then(response => {
@@ -178,8 +177,8 @@ export default {
     },
     update: function () {
       this.axios({
-        method: 'post',
-        url: 'http://localhost:8080/ad_content/update',
+        method: 'put',
+        url: 'http://localhost:9105/ad_contents',
         data: this.entity
       })
         .then(response => {
@@ -214,11 +213,11 @@ export default {
     },
     delOne: function (id) {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/ad_content/deleteOne?id=' + id
+        method: 'delete',
+        url: 'http://localhost:9105/ad_contents/' + id
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
         })
       // eslint-disable-next-line handle-callback-err
         .catch(error => {
@@ -227,11 +226,11 @@ export default {
     },
     del: function () {
       this.axios({
-        method: 'get',
-        url: 'http://localhost:8080/ad_content/delete?ids=' + this.selectIds
+        method: 'delete',
+        url: 'http://localhost:9105/ad_contents?ids=' + this.selectIds
       })
         .then(response => {
-          this.pageEvent(this.page)
+          this.refresh()
           // eslint-disable-next-line no-undef
           $('input:checkbox').prop('checked', false)
           this.selectIds = []
@@ -255,7 +254,7 @@ export default {
       formdata.append('file', this.file)
       this.axios({
         method: 'post',
-        url: 'http://localhost:8080/upload/upload',
+        url: 'http://localhost:8082/upload/upload',
         data: formdata,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       })
@@ -273,7 +272,7 @@ export default {
     findAllAdType: function () {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/ad_type/findAll'
+        url: 'http://localhost:9105/ad_types'
       })
         .then(response => {
           this.adTypeList = response.data
@@ -289,7 +288,7 @@ export default {
     }
   },
   mounted: function () {
-    this.pageEvent(1)
+    this.pageEvent(this.page)
     this.findAllAdType()
   }
 }

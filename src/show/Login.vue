@@ -50,7 +50,7 @@ export default {
           if (response.data.success) {
             this.name = this.$store.commit('setName', response.data.message)
             localStorage.setItem('store', response.data.message)
-            alert('登录成功')
+            // alert('登录成功')
             this.$router.push({ path: '/' })
           } else {
             alert('登录失败')

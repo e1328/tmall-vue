@@ -106,9 +106,9 @@ export default {
     findMyOrderListWithState: function (state) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/myorder/findMyOrderListWithState',
+        url: 'http://localhost:9103/myorder/findMyOrderListWithState',
         params: {
-          user_name: 'admin',
+          user_name: this.name,
           state: state
         }
       })
@@ -120,7 +120,7 @@ export default {
         })
         // eslint-disable-next-line handle-callback-err
         .catch(error => {
-          alert('fail')
+          // alert('fail')
         })
     },
     comment: function (list) {
@@ -130,7 +130,7 @@ export default {
     write: function (user_name, shop_id, goods_id, content) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/comment/write',
+        url: 'http://localhost:9103/comment/write',
         params: {
           user_name: user_name,
           shop_id: shop_id,

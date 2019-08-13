@@ -143,7 +143,7 @@ export default {
     findCarList: function () {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/car/findCarList?user_name=' + this.name
+        url: 'http://localhost:9103/car/findCarList?user_name=' + this.name
       })
         .then(response => {
           console.log(response.data)
@@ -160,7 +160,7 @@ export default {
       this.total()
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/car/add?car_id=' + id
+        url: 'http://localhost:9103/car/add?car_id=' + id
       })
     },
     cut: function (index, id) {
@@ -168,7 +168,7 @@ export default {
       this.total()
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/car/cut?car_id=' + id
+        url: 'http://localhost:9103/car/cut?car_id=' + id
       })
         .then(response => {
           console.log(response)
@@ -200,7 +200,7 @@ export default {
     delOne: function (id) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/car/deleteOne?car_id=' + id
+        url: 'http://localhost:9103/car/deleteOne?car_id=' + id
       })
         .then(response => {
           this.findCarList()
@@ -213,7 +213,7 @@ export default {
     del: function () {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/car/delete?car_ids=' + this.selectIds
+        url: 'http://localhost:9103/car/delete?car_ids=' + this.selectIds
       })
         .then(response => {
           // eslint-disable-next-line no-undef
@@ -231,7 +231,7 @@ export default {
       this.axios({
         method: 'get',
         // eslint-disable-next-line camelcase
-        url: 'http://localhost:8080/car/updateIsClick?car_id=' + car_id
+        url: 'http://localhost:9103/car/updateIsClick?car_id=' + car_id
       })
     },
     test: function () {
@@ -241,7 +241,7 @@ export default {
     account: function () {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/order/addGoodsToOrderList?user_name=' + this.name
+        url: 'http://localhost:9103/order/addGoodsToOrderList?user_name=' + this.name
       })
       this.$router.push({ path: '/SubmitOrder' })
     },

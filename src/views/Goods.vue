@@ -229,7 +229,7 @@ export default {
       formdata.append('file', this.file)
       this.axios({
         method: 'post',
-        url: 'http://localhost:8080/upload/upload',
+        url: 'http://localhost:9106/upload/',
         data: formdata,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       })

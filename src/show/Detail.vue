@@ -157,7 +157,7 @@ export default {
       this.axios({
         method: 'get',
         // eslint-disable-next-line camelcase
-        url: 'http://localhost:8080/goods/findOne?id=' + goods_id
+        url: 'http://localhost:8080/goods/' + goods_id
       })
         .then(response => {
           this.goods = response.data
@@ -172,7 +172,7 @@ export default {
     addGoodsToCarList: function (goods_id, amount) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/car/addGoodsToCarList',
+        url: 'http://localhost:9103/car/addGoodsToCarList',
         params: {
           goods_id: goods_id,
           amount: amount,
@@ -196,7 +196,7 @@ export default {
     findCommentList: function (id) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/comment/findByGoodsId?id=' + id
+        url: 'http://localhost:9103/comment/findByGoodsId?id=' + id
       })
         .then(response => {
           this.commentList = response.data
@@ -204,7 +204,7 @@ export default {
         })
         // eslint-disable-next-line handle-callback-err
         .catch(error => {
-          alert('fail')
+          // alert('fail')
         })
     },
     logout: function () {

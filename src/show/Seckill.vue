@@ -146,7 +146,7 @@ export default {
       this.axios({
         method: 'get',
         // eslint-disable-next-line camelcase
-        url: 'http://localhost:8080/seckill/findOneFromRedis?id=' + goods_id
+        url: 'http://localhost:9103/seckill/findOneFromRedis?id=' + goods_id
       })
         .then(response => {
           this.goods = response.data
@@ -160,7 +160,7 @@ export default {
     addGoodsToCarList: function (goods_id, amount) {
       this.axios({
         method: 'get',
-        url: 'http://localhost:8080/car/addGoodsToCarList',
+        url: 'http://localhost:9103/car/addGoodsToCarList',
         params: {
           goods_id: goods_id,
           amount: amount,
@@ -184,13 +184,13 @@ export default {
       this.axios({
         method: 'get',
         // eslint-disable-next-line camelcase
-        url: 'http://localhost:8080/seckill/submitOrder?id=' + id + '&user_name=' + user_name
+        url: 'http://localhost:9103/seckill/submitOrder?id=' + id + '&user_name=' + user_name
       })
         .then(response => {
           if (response.data.success) {
             this.axios({
               method: 'get',
-              url: 'http://localhost:8080/alipay/pay3?user_name=' + this.name
+              url: 'http://localhost:8082/alipay/pay3?user_name=' + this.name
             })
               .then(response => {
                 console.log(response.data)
